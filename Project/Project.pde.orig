@@ -73,7 +73,7 @@ public void draw() {
    
       x = x + speedX;
       y = y + speedY;
-<<<<<<< .merge_file_0w2CuK
+<<<<<<< HEAD
   
       
       //player 1 / left side
@@ -82,12 +82,12 @@ public void draw() {
    
       // if ball hits movable bar, invert X direction and apply effects
       if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
->>>>>>> .merge_file_lf2Fww
+>>>>>>> ab5d11ffaca47219b666d5581007e7876787c3ce
         speedX = speedX * -1;
         x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
-<<<<<<< .merge_file_0w2CuK
+<<<<<<< HEAD
         ellipse(x,y,diamHit,diamHit); 
       }
 
@@ -110,7 +110,7 @@ public void draw() {
       }
    
       else {    
->>>>>>> .merge_file_lf2Fww
+>>>>>>> ab5d11ffaca47219b666d5581007e7876787c3ce
       }
 
       // resets things if you lose
