@@ -35,8 +35,7 @@ int p2Scrore = 0;
 
 
 PVector ball;
-float speedX = random(3, 5);
-float speedY = random(3, 5);
+PVector speed = new PVector(random(3,5), random(3,5));
 
 int diam;
 int rectSize = 150;
@@ -51,6 +50,7 @@ public void setup() {
   leap = new LeapMotionP5(this);
   fill(255);
   ball = new PVector(width/2,height/2);
+
   
   //kijken als de juiste controler is conected nog doen
   
@@ -71,7 +71,7 @@ public void draw() {
 
     fill(128,128,128);
     diam = 20;
-    println("var: "+ball.x);
+    println("var: "+ ball.x);
     ellipse(ball.x, ball.y, diam, diam);
 
     //player 1 bar
@@ -85,15 +85,14 @@ public void draw() {
     if (gameStart) 
     {
    
-      ball.x += speedX;
-      ball.y += + speedY;
-  
+      ball.x += speed.x;
+      ball.y += + speed.y;
 
       //player 1 / left side 
       if ( ball.x < 30 && ball.x > 20 && ball.y > mouseY-rectSize/2 && ball.y < mouseY+rectSize/2 ) 
       {
-        speedX *= -1;
-        ball.x += speedX;
+        speed.x *= -1;
+        ball.x += speed.x;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
         ellipse(ball.x, ball.y,diamHit, diamHit);   
@@ -112,8 +111,8 @@ public void draw() {
 
       //player 2 / right side
       if ( ball.x > width-30 && ball.x < width -20 && ball.y > p2Bar-rectSize/2 && ball.y < p2Bar+rectSize/2 ) {
-        speedX = speedX * -1;
-        ball.x += speedX;
+        speed.x = speed.x * -1;
+        ball.x += speed.x;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
         ellipse(ball.x, ball.y, diamHit, diamHit); 
@@ -122,8 +121,8 @@ public void draw() {
       // if ball hits up or down, change direction of Y  
       if ( ball.y > height || ball.y < 0 ) 
       {
-        speedY = speedY * -1;
-        ball.y += speedY;
+        speed.y = speed.y * -1;
+        ball.y += speed.y;
       }
 
     }
@@ -162,7 +161,7 @@ void ResetGame()
   gameStart = false;
   ball.x = width/2;
   ball.y = height/2;
-  speedX = random(3, 5);
-  speedY = random(3, 5);
+  speed.x = random(3, 5);
+  speed.y = random(3, 5);
   rectSize = 150;
 }
