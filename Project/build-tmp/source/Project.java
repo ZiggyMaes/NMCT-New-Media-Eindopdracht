@@ -118,22 +118,19 @@ public void draw() {
       // if ball hits movable bar, invert X direction and apply effects
       if ( x > width-30 && x < width -20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
         speedX = speedX * -1;
-        x = x + speedX;
+        x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
-        ellipse(x,y,diamHit,diamHit);
-        rectSize = rectSize-10;
-        rectSize = constrain(rectSize, 10,150);     
+        ellipse(x,y,diamHit,diamHit); 
       }
-   
-      // if ball hits wall, change direction of X
-      else if (x < 25) {
-        speedX = speedX * -1.1f;
-        x = x + speedX;
+      else if ( x < 30 && x > 20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
+        speedX = speedX * -1;
+        x += speedX;
+        fill(random(0,128),random(0,128),random(0,128));
+        diamHit = random(75,150);
+        ellipse(x,y,diamHit,diamHit); 
       }
-   
-      else {    
-      }
+      
       // resets things if you lose
       if (x > width) {
         gameStart = false;
