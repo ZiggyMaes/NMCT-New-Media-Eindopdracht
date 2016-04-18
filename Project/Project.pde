@@ -27,13 +27,13 @@ int test = 100;
 boolean testingGamePad = false;
 
 boolean gameStart = false;
- 
+
 float x = 150;
 float y = 150;
 float speedX = random(3, 5);
 float speedY = random(3, 5);
-int leftColor = 128;
-int rightColor = 128;
+int p1Color = "#83ff00";
+int p2Color = "#ff0000";
 int diam;
 int rectSize = 150;
 float diamHit;
@@ -77,9 +77,9 @@ public void draw() {
     diam = 20;
     ellipse(x, y, diam, diam);
    
-    fill(leftColor);
-    rect(0, 0, 20, height);
-    fill(rightColor);
+    fill(p1Color);
+    rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
+    fill(p2Color);
     rect(width-30, mouseY-rectSize/2, 10, rectSize);
    
    
@@ -185,7 +185,7 @@ public void draw() {
         int projectielY = bolY;
         test = 0;
         ellipse(projectielX,projectielY,5,5);
-        schiet(bolX,bolY);
+        schiet(bolX,bolY, 0);
       }
     }
   }
