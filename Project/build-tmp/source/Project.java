@@ -59,8 +59,8 @@ float x = 150;
 float y = 150;
 float speedX = random(3, 5);
 float speedY = random(3, 5);
-int p1Color = 0x83ff00;
-int p2Color = 0xff0000;
+int p1Color = 0xff83ff00;
+int p2Color = 0xffff0000;
 int diam;
 int rectSize = 150;
 float diamHit;
@@ -119,7 +119,6 @@ public void draw() {
       if ( x > width-30 && x < width -20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
         speedX = speedX * -1;
         x = x + speedX;
-        p2Color = 0;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
         ellipse(x,y,diamHit,diamHit);
@@ -131,12 +130,9 @@ public void draw() {
       else if (x < 25) {
         speedX = speedX * -1.1f;
         x = x + speedX;
-        p1Color = 0;
       }
    
       else {    
-        p1Color = 128;
-        p2Color = 128;
       }
       // resets things if you lose
       if (x > width) {
