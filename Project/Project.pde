@@ -123,16 +123,10 @@ public void draw() {
   if(testingGamePad == true){
     //controler hat besturing
     /*if(device.getHat(0).up()){
-      bolY-=10;
+      p2Bar-=10;
     }
     if(device.getHat(0).down()){
-      bolY+=10;
-    }
-    if(device.getHat(0).left()){
-      bolX-=10;
-    }
-    if(device.getHat(0).right()){
-      bolX+=10;
+      p2Bar+=10;
     }*/
     //controler knop ingedrukt
     /*if(device.getButton(1).pressed() == true){
