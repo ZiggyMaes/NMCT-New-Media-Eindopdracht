@@ -61,11 +61,11 @@ public void draw() {
 //Toon score
     textSize(32);
     fill(128);
-    text(p1Scrore, 425, 30);
-    text(p2Scrore, 380, 30);
+    text(p1Scrore, width/2+25, 30);
+    text(p2Scrore, width/2-20, 30);
     fill(200);
-    rect(410, 0, 5, height);
-   
+    rect(width/2+10, 0, 5, height);
+
     fill(128,128,128);
     diam = 20;
     ellipse(x, y, diam, diam);
