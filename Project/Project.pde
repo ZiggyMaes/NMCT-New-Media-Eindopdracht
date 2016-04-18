@@ -1,16 +1,3 @@
-/*import net.java.games.input.*;
-import org.gamecontrolplus.*;
-import org.gamecontrolplus.gui.*;
-
-import com.onformative.leap.*;
-
-void setup(){
-
-}
-
-void draw(){
-
-}*/
 import g4p_controls.G4P;
 import g4p_controls.GAlign;
 import g4p_controls.GButton;
@@ -41,7 +28,7 @@ int bolY = 0;
 
 int test = 100;
 
-
+boolean testingGamePad = true;
 
 public void setup() {
   size(800,600);
@@ -71,53 +58,74 @@ public void setup() {
 }
 
 public void draw() {
-  //println(test);
-  background(0);
-  ControlDevice device = controlIO.getDevice(3);
-  //println(device.getSlider(0).getValue());
-  //println(device.getHat(0).up());
-  //println(device.getButton(1).pressed());
-  if(device.getHat(0).up()){
-    bolY-=10;
-  }
-  if(device.getHat(0).down()){
-    bolY+=10;
-  }
-  if(device.getHat(0).left()){
-    bolX-=10;
-  }
-  if(device.getHat(0).right()){
-    bolX+=10;
-  }
-  if(device.getButton(1).pressed() == true){
-    int projectielX = bolX;
-    int projectielY = bolY;
-    test = 0;
-    /*ellipse(projectielX,projectielY,5,5);
-    schiet(bolX,bolY);*/
-    /*if(test < 100){
-      projectielX += 1;
-      projectielY += 1;
-      ellipse(projectielX,projectielY,5,5);
-      ellipse(bolX,bolY,10,10);
-    }*/
-  }
-  //int projectielX = bolX;
-  //int projectielY = bolY;
-  if(test == 0){
-    int projectielX = bolX;
-    int projectielY = bolY;
-    while(test < 100){
-      test++;
-      projectielX++;
-      projectielY++;
-      println(projectielX + " + " + projectielY + " en " + test);
-      background(0);
-      ellipse(projectielX,projectielY,5,5);
-      ellipse(bolX,bolY,10,10);
+  if(testingGamePad == true){
+    //println(test);
+    background(0);
+    ControlDevice device = controlIO.getDevice(3);
+    //println(device.getSlider(0).getValue());
+    //println(device.getHat(0).up());
+    //println(device.getButton(1).pressed());
+       
+    /*if(device.getHat(0).up()){
+      bolY-=10;
     }
+    if(device.getHat(0).down()){
+      bolY+=10;
+    }
+    if(device.getHat(0).left()){
+      bolX-=10;
+    }
+    if(device.getHat(0).right()){
+      bolX+=10;
+    }*/
+    /*if(device.getButton(1).pressed() == true){
+      int projectielX = bolX;
+      int projectielY = bolY;
+      test = 0;
+      /*ellipse(projectielX,projectielY,5,5);
+      schiet(bolX,bolY);*/
+      /*if(test < 100){
+        projectielX += 1;
+        projectielY += 1;
+        ellipse(projectielX,projectielY,5,5);
+        ellipse(bolX,bolY,10,10);
+      }*/
+    //}
+    //int projectielX = bolX;
+    //int projectielY = bolY;
+    if(test == 0){
+      int projectielX = bolX;
+      int projectielY = bolY;
+      while(test < 100){
+        test++;
+        projectielX++;
+        projectielY++;
+        println(projectielX + " + " + projectielY + " en " + test);
+        background(0);
+        ellipse(projectielX,projectielY,5,5);
+        ellipse(bolX,bolY,10,10);
+      }
+    }
+    ellipse(bolX,bolY,10,10);
   }
-  ellipse(bolX,bolY,10,10);
+}
+void keyPressed() {
+  if (key == CODED) {
+      if (keyCode == UP) {
+        bolY-=10;
+      } else if (keyCode == DOWN) {
+        bolY+=10;
+      } else if (keyCode == LEFT) {
+        bolX-=10;
+      } else if (keyCode == RIGHT) {
+        bolX+=10;
+      }
+      if (keyCode == 'a') {
+        int projectielX = bolX;
+        int projectielY = bolY;
+        test = 0;
+      }
+    }
 }
 public void schiet(int projectielX, int projectielY){
   for (int i = 0; i < 200; i = i+1) {
