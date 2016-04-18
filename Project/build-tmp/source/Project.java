@@ -55,6 +55,7 @@ boolean testingGamePad = false;
 boolean gameStart = false;
 
 int p2Scrore = 0;
+int p1Scrore = 0;
 
 float x = 150;
 float y = 150;
@@ -84,6 +85,14 @@ public void setup() {
 public void draw() {
     background(255);
    
+//Toon score
+    textSize(32);
+    fill(128);
+    text(p1Scrore, 425, 30);
+    text(p2Scrore, 380, 30);
+    fill(200);
+    rect(410, 0, 5, height);
+   
     fill(128,128,128);
     diam = 20;
     ellipse(x, y, diam, diam);
@@ -92,9 +101,6 @@ public void draw() {
     rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
     fill(p2Color);
     rect(width-30, p2Bar-rectSize/2, 10, rectSize);
-   
-    //Toon score
-    text(p2Scrore, 10, 30);
    
     if (gameStart) {
    
@@ -111,6 +117,16 @@ public void draw() {
         ellipse(x,y,diamHit,diamHit);   
       }
 
+      if (x < 0) {
+        p1Scrore++; 
+        gameStart = false;
+        x = 150;
+        y = 150;
+        speedX = random(3, 5);
+        speedY = random(3, 5);
+        rectSize = 150;
+      }
+
       //player 2 / right side
       if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
         speedX = speedX * -1;
@@ -121,7 +137,7 @@ public void draw() {
       }
 
       // resets things if you lose
-      if (x > width || x < 0) {
+      if (x > width) {
         p2Scrore++; 
         gameStart = false;
         x = 150;
@@ -138,6 +154,7 @@ public void draw() {
         y = y + speedY;
       }
     }
+
 
   if(testingGamePad == true){
     //controler hat besturing
@@ -164,9 +181,9 @@ public void keyPressed() {
   }
 }
 public void mousePressed() {
-  gameStart = !gameStart;
+  gameStart = true;
 }
-  public void settings() {  size(800,600);  smooth(); }
+  public void settings() {  size(1920,1080);  smooth(); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Project" };
     if (passedArgs != null) {

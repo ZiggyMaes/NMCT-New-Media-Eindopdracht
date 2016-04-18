@@ -41,7 +41,7 @@ int rectSize = 150;
 float diamHit;
 
 public void setup() {
-  size(800,600);
+  size(1920,1080);
   controlIO = ControlIO.getInstance(this);
   noStroke();
   smooth();
