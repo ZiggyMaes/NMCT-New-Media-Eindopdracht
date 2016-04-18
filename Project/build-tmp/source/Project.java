@@ -46,23 +46,25 @@ GButton btnSelSketch;
 
 LeapMotionP5 leap;
 
-int p2Bar = 0;
-
-int test = 100;
-
 boolean testingGamePad = false;
 
 boolean gameStart = false;
 
-int p2Scrore = 0;
-int p1Scrore = 0;
+//Player variables
+int p1Bar = height/2;
+int p2Bar = height/2;
 
-float x = 150;
-float y = 150;
-float speedX = random(3, 5);
-float speedY = random(3, 5);
 int p1Color = 0xff83ff00;
 int p2Color = 0xffff0000;
+
+int p1Scrore = 0;
+int p2Scrore = 0;
+
+
+PVector ball;
+float speedX = random(3, 5);
+float speedY = random(3, 5);
+
 int diam;
 int rectSize = 150;
 float diamHit;
@@ -75,6 +77,7 @@ public void setup() {
   ellipseMode(CENTER);
   leap = new LeapMotionP5(this);
   fill(255);
+  ball = new PVector(width/2,height/2);
   
   //kijken als de juiste controler is conected nog doen
   
@@ -88,71 +91,64 @@ public void draw() {
 //Toon score
     textSize(32);
     fill(128);
-    text(p1Scrore, 425, 30);
-    text(p2Scrore, 380, 30);
+    text(p1Scrore, width/2+60, 30);
+    text(p2Scrore, width/2-90, 30);
     fill(200);
-    rect(410, 0, 5, height);
-   
+    rect(width/2-2.5f, 0, 5, height);
+
     fill(128,128,128);
     diam = 20;
-    ellipse(x, y, diam, diam);
+    println("var: "+ball.x);
+    ellipse(ball.x, ball.y, diam, diam);
+
    
     fill(p1Color);
-    rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
+    rect(20, mouseY-rectSize/2, 10, rectSize); //player 1 bar
     fill(p2Color);
-    rect(width-30, p2Bar-rectSize/2, 10, rectSize);
+    rect(width-30, p2Bar-rectSize/2, 10, rectSize); //player 2 bar
    
     if (gameStart) {
    
-      x = x + speedX;
-      y = y + speedY;
+      ball.x += speedX;
+      ball.y += + speedY;
   
 
       //player 1 / left side 
-      if ( x < 30 && x > 20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
-        speedX = speedX * -1;
-        x += speedX;
+      if ( ball.x < 30 && ball.x > 20 && ball.y > mouseY-rectSize/2 && ball.y < mouseY+rectSize/2 ) {
+        speedX *= -1;
+        ball.x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
-        ellipse(x,y,diamHit,diamHit);   
+        ellipse(ball.x, ball.y,diamHit, diamHit);   
       }
 
-      if (x < 0) {
+      if (ball.x < 0)
+      {
         p1Scrore++; 
-        gameStart = false;
-        x = 150;
-        y = 150;
-        speedX = random(3, 5);
-        speedY = random(3, 5);
-        rectSize = 150;
+        ResetGame();
+      }
+      else if (ball.x > width) 
+      {
+        p2Scrore++; 
+        ResetGame();
       }
 
       //player 2 / right side
-      if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
+      if ( ball.x > width-30 && ball.x < width -20 && ball.y > p2Bar-rectSize/2 && ball.y < p2Bar+rectSize/2 ) {
         speedX = speedX * -1;
-        x += speedX;
+        ball.x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
-        ellipse(x,y,diamHit,diamHit); 
+        ellipse(ball.x, ball.y, diamHit, diamHit); 
       }
-
-      // resets things if you lose
-      if (x > width) {
-        p2Scrore++; 
-        gameStart = false;
-        x = 150;
-        y = 150;
-        speedX = random(3, 5);
-        speedY = random(3, 5);
-        rectSize = 150;
-      }
-   
    
       // if ball hits up or down, change direction of Y  
-      if ( y > height || y < 0 ) {
+      if ( ball.y > height || ball.y < 0 ) 
+      {
         speedY = speedY * -1;
-        y = y + speedY;
+        ball.y += speedY;
       }
+
     }
 
 
@@ -182,6 +178,16 @@ public void keyPressed() {
 }
 public void mousePressed() {
   gameStart = true;
+}
+
+public void ResetGame()
+{
+  gameStart = false;
+  ball.x = width/2;
+  ball.y = height/2;
+  speedX = random(3, 5);
+  speedY = random(3, 5);
+  rectSize = 150;
 }
   public void settings() {  size(1920,1080);  smooth(); }
   static public void main(String[] passedArgs) {
