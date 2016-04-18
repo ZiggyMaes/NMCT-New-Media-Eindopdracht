@@ -28,6 +28,7 @@ boolean testingGamePad = false;
 boolean gameStart = false;
 
 int p2Scrore = 0;
+int p1Scrore = 0;
 
 float x = 150;
 float y = 150;
@@ -67,7 +68,8 @@ public void draw() {
     rect(width-30, p2Bar-rectSize/2, 10, rectSize);
    
     //Toon score
-    text(p2Scrore, 10, 30);
+    text(p1Scrore, 10, 30);
+    text(p2Scrore, 10, 40);
    
     if (gameStart) {
    
@@ -84,6 +86,16 @@ public void draw() {
         ellipse(x,y,diamHit,diamHit);   
       }
 
+      if (x < 0) {
+        p1Scrore++; 
+        gameStart = false;
+        x = 150;
+        y = 150;
+        speedX = random(3, 5);
+        speedY = random(3, 5);
+        rectSize = 150;
+      }
+
       //player 2 / right side
       if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
         speedX = speedX * -1;
@@ -94,7 +106,7 @@ public void draw() {
       }
 
       // resets things if you lose
-      if (x > width || x < 0) {
+      if (x > width) {
         p2Scrore++; 
         gameStart = false;
         x = 150;
