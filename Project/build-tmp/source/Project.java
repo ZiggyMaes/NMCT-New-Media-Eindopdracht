@@ -12,6 +12,7 @@ import g4p_controls.GLabel;
 import org.gamecontrolplus.Configuration; 
 import org.gamecontrolplus.ControlDevice; 
 import org.gamecontrolplus.ControlIO; 
+import com.onformative.leap.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -35,10 +36,14 @@ public class Project extends PApplet {
 
 
 
+//Leap motion library
+
+
 ControlIO controlIO;
 int panelHeight;
 GLabel lblPath, lblSketch;
 GButton btnSelSketch;
+LeapMotionP5 leap;
 
 int bolX = 0;
 int bolY = 0;

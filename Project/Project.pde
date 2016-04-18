@@ -9,10 +9,14 @@ import org.gamecontrolplus.Configuration;
 import org.gamecontrolplus.ControlDevice;
 import org.gamecontrolplus.ControlIO;
 
+//Leap motion library
+import com.onformative.leap.*;
+
 ControlIO controlIO;
 int panelHeight;
 GLabel lblPath, lblSketch;
 GButton btnSelSketch;
+LeapMotionP5 leap;
 
 int bolX = 0;
 int bolY = 0;
@@ -24,6 +28,7 @@ boolean testingGamePad = false;
 public void setup() {
   size(800,600);
   controlIO = ControlIO.getInstance(this);
+  leap = new LeapMotionP5(this);
   fill(255);
   /*test = controlIO.getMatchedDevice("test");
   if (test == null) {
@@ -118,7 +123,7 @@ void keyPressed() {
       }
     }
 }
-public void schiet(int projectielX, int projectielY){
+public void schiet(int projectielX, int projectielY, int player){
   for (int i = 0; i < 200; i = i+1) {
       projectielX += 1;
       projectielY += 1;
