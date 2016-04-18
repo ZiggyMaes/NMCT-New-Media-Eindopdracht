@@ -74,20 +74,24 @@ public void draw() {
     println("var: "+ball.x);
     ellipse(ball.x, ball.y, diam, diam);
 
-   
+    //player 1 bar
     fill(p1Color);
-    rect(20, mouseY-rectSize/2, 10, rectSize); //player 1 bar
+    rect(20, mouseY-rectSize/2, 10, rectSize);
+
+    //player 2 bar
     fill(p2Color);
-    rect(width-30, p2Bar-rectSize/2, 10, rectSize); //player 2 bar
+    rect(width-30, p2Bar-rectSize/2, 10, rectSize); 
    
-    if (gameStart) {
+    if (gameStart) 
+    {
    
       ball.x += speedX;
       ball.y += + speedY;
   
 
       //player 1 / left side 
-      if ( ball.x < 30 && ball.x > 20 && ball.y > mouseY-rectSize/2 && ball.y < mouseY+rectSize/2 ) {
+      if ( ball.x < 30 && ball.x > 20 && ball.y > mouseY-rectSize/2 && ball.y < mouseY+rectSize/2 ) 
+      {
         speedX *= -1;
         ball.x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
