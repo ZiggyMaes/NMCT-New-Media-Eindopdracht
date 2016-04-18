@@ -27,6 +27,8 @@ boolean testingGamePad = false;
 
 boolean gameStart = false;
 
+int p2Scrore = 0;
+
 float x = 150;
 float y = 150;
 float speedX = random(3, 5);
@@ -64,6 +66,8 @@ public void draw() {
     fill(p2Color);
     rect(width-30, p2Bar-rectSize/2, 10, rectSize);
    
+    //Toon score
+    text(p2Scrore, 10, 30);
    
     if (gameStart) {
    
@@ -77,10 +81,9 @@ public void draw() {
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
         ellipse(x,y,diamHit,diamHit);
-        rectSize = rectSize-10;
+        //rectSize = rectSize-10;
         rectSize = constrain(rectSize, 10,150);     
       }
-   
       // if ball hits wall, change direction of X
       else if (x < 25) {
         speedX = speedX * -1.1;
@@ -89,8 +92,10 @@ public void draw() {
    
       else {    
       }
+
       // resets things if you lose
-      if (x > width) {
+      if (x > width || x < 0) {
+        p2Scrore++; 
         gameStart = false;
         x = 150;
         y = 150;
@@ -131,9 +136,9 @@ public void draw() {
 void keyPressed() {
   if (key == CODED) {
       if (keyCode == UP) {
-        p2Bar -= 10;
+        p2Bar -= 20;
       } else if (keyCode == DOWN) {
-        p2Bar += 10;
+        p2Bar += 20;
       }
   }
 }
