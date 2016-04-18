@@ -137,5 +137,5 @@ void keyPressed() {
   }
 }
 void mousePressed() {
-  gameStart = !gameStart;
+  gameStart = true;
 }
