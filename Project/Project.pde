@@ -58,6 +58,14 @@ public void setup() {
 public void draw() {
     background(255);
    
+//Toon score
+    textSize(32);
+    fill(128);
+    text(p1Scrore, 425, 30);
+    text(p2Scrore, 380, 30);
+    fill(200);
+    rect(410, 0, 5, height);
+   
     fill(128,128,128);
     diam = 20;
     ellipse(x, y, diam, diam);
@@ -66,10 +74,6 @@ public void draw() {
     rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
     fill(p2Color);
     rect(width-30, p2Bar-rectSize/2, 10, rectSize);
-   
-    //Toon score
-    text(p1Scrore, 10, 30);
-    text(p2Scrore, 10, 40);
    
     if (gameStart) {
    
@@ -123,6 +127,7 @@ public void draw() {
         y = y + speedY;
       }
     }
+
 
   if(testingGamePad == true){
     //controler hat besturing
