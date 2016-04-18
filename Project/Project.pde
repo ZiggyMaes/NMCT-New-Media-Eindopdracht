@@ -74,20 +74,9 @@ public void draw() {
       x = x + speedX;
       y = y + speedY;
   
-      
-      //player 1 / left side
 
-      // if ball hits movable bar, invert X direction and apply effects
-      if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
-        speedX = speedX * -1;
-        x += speedX;
-        fill(random(0,128),random(0,128),random(0,128));
-        diamHit = random(75,150);
-        ellipse(x,y,diamHit,diamHit); 
-      }
-
-      //player 2 / right side 
-      if ( x > width-30 && x < width -20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
+      //player 1 / left side 
+      if ( x < 30 && x > 20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
         speedX = speedX * -1;
         x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
@@ -95,10 +84,13 @@ public void draw() {
         ellipse(x,y,diamHit,diamHit);   
       }
 
-      // if ball hits wall, change direction of X
-      if (x < 25) {
-        speedX = speedX * -1.1;
-        x = x + speedX;
+      //player 2 / right side
+      if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
+        speedX = speedX * -1;
+        x += speedX;
+        fill(random(0,128),random(0,128),random(0,128));
+        diamHit = random(75,150);
+        ellipse(x,y,diamHit,diamHit); 
       }
 
       // resets things if you lose
