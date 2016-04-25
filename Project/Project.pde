@@ -25,10 +25,10 @@ int p2X = 0;
 
 int test = 100;
 
-boolean testingGamePad = true;
+boolean testingGamePad = false;
 
 boolean gameStart = true;
-boolean disableBall = true;
+boolean disableBall = false;
 
 boolean powerup = true;
 
@@ -102,7 +102,6 @@ public void draw()
       for (Hand h : hands) 
       { 
         handPos = leap.getPosition(h);
-        translate(handPos.x, handPos.y);
       }
   }
  

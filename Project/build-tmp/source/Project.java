@@ -53,10 +53,10 @@ int p2X = 0;
 
 int test = 100;
 
-boolean testingGamePad = true;
+boolean testingGamePad = false;
 
 boolean gameStart = true;
-boolean disableBall = true;
+boolean disableBall = false;
 
 boolean powerup = true;
 
@@ -91,6 +91,7 @@ public void setup() {
   
   p2X = width-30;
   controlIO = ControlIO.getInstance(this);
+  println(controlIO);
   noStroke();
   
   ellipseMode(CENTER);
@@ -100,7 +101,7 @@ public void setup() {
   //kijken als de juiste controler is conected nog doen
   
   //zoek het juiste device
-  if(!testingGamePad) gamepad = controlIO.getDevice(6);
+  //if(!testingGamePad) gamepad = controlIO.getDevice(6);
   println(gamepad);
 }
 
@@ -130,7 +131,6 @@ public void draw()
       for (Hand h : hands) 
       { 
         handPos = leap.getPosition(h);
-        translate(handPos.x, handPos.y);
       }
   }
  
