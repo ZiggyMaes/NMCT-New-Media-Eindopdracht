@@ -20,10 +20,11 @@ GButton btnSelSketch;
 LeapMotionP5 leap;
 
 int p2Bar = 0;
+int p2X = 0;
 
 int test = 100;
 
-boolean testingGamePad = false;
+boolean testingGamePad = true;
 
 boolean gameStart = false;
 
@@ -40,8 +41,17 @@ int diam;
 int rectSize = 150;
 float diamHit;
 
+ControlDevice gamepad;
+
+float xPower = 550;
+float yPower = 450;
+
+float power = 1;
+
 public void setup() {
-  size(1920,1080);
+  //size(1920,1080);
+  size(800,600);
+  p2X = width-30;
   controlIO = ControlIO.getInstance(this);
   noStroke();
   smooth();
@@ -52,12 +62,12 @@ public void setup() {
   //kijken als de juiste controler is conected nog doen
   
   //zoek het juiste device
-  //ControlDevice device = controlIO.getDevice(3);
+  gamepad = controlIO.getDevice(6);
+  println(gamepad);
 }
 
 public void draw() {
     background(255);
-   
 //Toon score
     textSize(32);
     fill(128);
@@ -69,16 +79,18 @@ public void draw() {
     fill(128,128,128);
     diam = 20;
     ellipse(x, y, diam, diam);
+    
+    ellipse(xPower, yPower, 50, 50);
    
     fill(p1Color);
     rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
     fill(p2Color);
-    rect(width-30, p2Bar-rectSize/2, 10, rectSize);
+    rect(p2X, p2Bar-rectSize/2, 10, rectSize);
    
     if (gameStart) {
    
-      x = x + speedX;
-      y = y + speedY;
+      //x = x + speedX;
+      //y = y + speedY;
   
 
       //player 1 / left side 
@@ -101,12 +113,36 @@ public void draw() {
       }
 
       //player 2 / right side
-      if ( x > width-30 && x < width -20 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
+      if ( x > p2X && x < p2X+10 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
         speedX = speedX * -1;
         x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
         diamHit = random(75,150);
         ellipse(x,y,diamHit,diamHit); 
+      }
+      
+      if ( xPower > p2X && xPower < p2X+10 && yPower > p2Bar-rectSize/2 && yPower < p2Bar+rectSize/2 ) {
+        power = round(power);
+        if(power == 1){
+          rectSize = 75;
+           println("1");
+           setNewPowerup();
+           int s = second(); 
+           println(s);
+           int stoppower = s + 10;
+           if(s == stoppower){
+             rectSize = 150;
+           }
+         }
+         if(power == 2){
+           println("2");
+           setNewPowerup();
+         }
+         if(power == 3){
+           println("3");
+           setNewPowerup();
+         } 
+        
       }
 
       // resets things if you lose
@@ -131,18 +167,28 @@ public void draw() {
 
   if(testingGamePad == true){
     //controler hat besturing
-    /*if(device.getHat(0).up()){
+    if(gamepad.getHat(0).up()){
       p2Bar-=10;
     }
-    if(device.getHat(0).down()){
+    if(gamepad.getHat(0).down()){
       p2Bar+=10;
-    }*/
-    //controler knop ingedrukt
-    /*if(device.getButton(1).pressed() == true){
-      
-      }*/
-    //};
     }
+    //controler knop ingedrukt
+    if(gamepad.getButton(1).pressed() == true && p2X == width/2+20){
+      p2X -= 0;
+    }else if(gamepad.getButton(1).pressed()){
+      p2X -= 1;
+    }else{
+      p2X = width-30;
+    }
+    //};
+  }
+}
+void setNewPowerup(){
+  xPower = random(width /2, width);
+  yPower = random(0 , height);
+  power = random(0.5,3.5);
+  println(xPower + " " + yPower + " " + power);
 }
 void keyPressed() {
   if (key == CODED) {
@@ -150,7 +196,7 @@ void keyPressed() {
         p2Bar -= 20;
       } else if (keyCode == DOWN) {
         p2Bar += 20;
-      }
+      } 
   }
 }
 void mousePressed() {
