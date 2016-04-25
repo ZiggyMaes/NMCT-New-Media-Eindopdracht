@@ -51,6 +51,9 @@ float xPower = 550;
 float yPower = 450;
 
 float power = 1;
+float previusPower;
+
+int stoppower;
 
 public void setup() {
   //size(1920,1080);
@@ -71,6 +74,7 @@ public void setup() {
 }
 
 public void draw() {
+    int s = second();
     background(255);
 //Toon score
     textSize(32);
@@ -133,24 +137,24 @@ public void draw() {
       if ( xPower > p2X && xPower < p2X+10 && yPower > p2Bar-rectSizeP2/2 && yPower < p2Bar+rectSizeP2/2 ) {
         power = round(power);
         if(power == 1){
-          rectSizeP1 = 75;
-           println("1");
+           previusPower = power;
+           rectSizeP1 = 75;
            setNewPowerup();
-           int s = second(); 
-           println(s);
-           int stoppower = s + 10;
-           if(s == stoppower){
-             rectSizeP1 = 150;
-           }
+           stoppower = s + 10;
          }
          if(power == 2){
-           println("2");
            setNewPowerup();
          }
          if(power == 3){
-           println("3");
            setNewPowerup();
          } 
+        
+      }
+
+      if(s == stoppower){
+        if(previusPower == 1){
+          rectSizeP1 = 150;
+        }
         
       }
 
