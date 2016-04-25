@@ -24,7 +24,7 @@ int p2X = 0;
 
 int test = 100;
 
-boolean testingGamePad = true;
+boolean testingGamePad = false;
 
 boolean gameStart = true;
 boolean disableBall = true;
@@ -47,6 +47,7 @@ float diamHit;
 
 ControlDevice gamepad;
 
+color[] powerupColors = {#FDC96C, #A2CAC1, #ED7F75}; 
 float xPower = 550;
 float yPower = 450;
 
@@ -88,7 +89,7 @@ public void draw() {
     diam = 20;
     ellipse(x, y, diam, diam);
     
-    ellipse(xPower, yPower, 50, 50);
+    ellipse(xPower, yPower, 50, 50); //power up
    
     fill(p1Color);
     rect(30, mouseY-rectSizeP1/2, 10, rectSizeP1); //player 1 bar
@@ -134,28 +135,36 @@ public void draw() {
         ellipse(x,y,diamHit,diamHit); 
       }
       
-      if ( xPower > p2X && xPower < p2X+10 && yPower > p2Bar-rectSizeP2/2 && yPower < p2Bar+rectSizeP2/2 ) {
+      if ( xPower +25 > p2X && xPower -25 < p2X+10 && yPower + 25 > p2Bar-rectSizeP2/2 && yPower - 25 < p2Bar+rectSizeP2/2 ) {
         power = round(power);
         if(power == 1){
+           rectSizeP1 = 150;
+           rectSizeP2= 150;
            previusPower = power;
            rectSizeP1 = 75;
            setNewPowerup();
            stoppower = s + 10;
          }
          if(power == 2){
+           rectSizeP1 = 150;
+           rectSizeP2 = 150;
+           previusPower = power;
+           rectSizeP2 = 300;
            setNewPowerup();
+           stoppower = s + 10;
          }
          if(power == 3){
            setNewPowerup();
-         } 
-        
+         }
       }
 
       if(s == stoppower){
         if(previusPower == 1){
           rectSizeP1 = 150;
         }
-        
+        if(previusPower == 2){
+          rectSizeP2 = 150;
+        }
       }
 
       // resets things if you lose
@@ -181,26 +190,33 @@ public void draw() {
 
   if(testingGamePad == false){
     //controler hat besturing
-    if(gamepad.getHat(0).up()){
+    if(gamepad.getHat(0).up() && p2Bar - rectSizeP2/2 - 20 > 0){
       p2Bar-=10;
     }
-    if(gamepad.getHat(0).down()){
+    if(gamepad.getHat(0).down() && p2Bar + rectSizeP2/2 +20 < height){
       p2Bar+=10;
     }
+    if(gamepad.getHat(0).left() && p2X > width/2+20){
+      p2X -= 5;
+    }
+    if(gamepad.getHat(0).right() && p2X < width-20){
+      p2X += 5;
+    }
     //controler knop ingedrukt
-    if(gamepad.getButton(1).pressed() == true && p2X == width/2+20){
+    /*if(gamepad.getButton(1).pressed() == true && p2X == width/2+20){
       p2X -= 0;
     }else if(gamepad.getButton(1).pressed()){
       p2X -= 1;
     }else{
       p2X = width-30;
-    }
+    }*/
     //};
   }
 }
 void setNewPowerup(){
-  xPower = random(width /2, width);
-  yPower = random(0 , height);
+  fill(128);
+  xPower = random(width /2 +55, width - 55);
+  yPower = random(0+55 , height-55);
   power = random(0.5,3.5);
   println(xPower + " " + yPower + " " + power);
 }
