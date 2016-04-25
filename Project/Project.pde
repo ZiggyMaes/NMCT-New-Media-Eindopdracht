@@ -25,7 +25,7 @@ int p2X = 0;
 
 int test = 100;
 
-boolean testingGamePad = true;
+boolean testingGamePad = false;
 
 boolean gameStart = true;
 boolean disableBall = true;
@@ -93,8 +93,6 @@ public void draw()
   fill(128,128,128);
   diam = 20;
   ellipse(x, y, diam, diam);
-  
-  ellipse(xPower, yPower, 50, 50);
 
   ArrayList<Hand> hands = leap.getHandList();
   if(hands.size() == 1)
