@@ -39,7 +39,10 @@ float speedY = random(3, 5);
 int p1Color = 0xff83ff00;
 int p2Color = 0xffff0000;
 int diam;
-int rectSize = 150;
+
+int rectSizeP1 = 150;
+int rectSizeP2 = 150;
+
 float diamHit;
 
 ControlDevice gamepad;
@@ -84,9 +87,9 @@ public void draw() {
     ellipse(xPower, yPower, 50, 50);
    
     fill(p1Color);
-    rect(30, mouseY-rectSize/2, 10, rectSize); //player 1 bar
+    rect(30, mouseY-rectSizeP1/2, 10, rectSizeP1); //player 1 bar
     fill(p2Color);
-    rect(p2X, p2Bar-rectSize/2, 10, rectSize);
+    rect(p2X, p2Bar-rectSizeP2/2, 10, rectSizeP2);
    
     if (gameStart) {
    
@@ -99,7 +102,7 @@ public void draw() {
   
 
       //player 1 / left side 
-      if ( x < 30 && x > 20 && y > mouseY-rectSize/2 && y < mouseY+rectSize/2 ) {
+      if ( x < 30 && x > 20 && y > mouseY-rectSizeP1/2 && y < mouseY+rectSizeP1/2 ) {
         speedX = speedX * -1;
         x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
@@ -114,11 +117,12 @@ public void draw() {
         y = 150;
         speedX = random(3, 5);
         speedY = random(3, 5);
-        rectSize = 150;
+        rectSizeP2 = 150;
+        rectSizeP1 = 150;
       }
 
       //player 2 / right side
-      if ( x > p2X && x < p2X+10 && y > p2Bar-rectSize/2 && y < p2Bar+rectSize/2 ) {
+      if ( x > p2X && x < p2X+10 && y > p2Bar-rectSizeP2/2 && y < p2Bar+rectSizeP2/2 ) {
         speedX = speedX * -1;
         x += speedX;
         fill(random(0,128),random(0,128),random(0,128));
@@ -126,17 +130,17 @@ public void draw() {
         ellipse(x,y,diamHit,diamHit); 
       }
       
-      if ( xPower > p2X && xPower < p2X+10 && yPower > p2Bar-rectSize/2 && yPower < p2Bar+rectSize/2 ) {
+      if ( xPower > p2X && xPower < p2X+10 && yPower > p2Bar-rectSizeP2/2 && yPower < p2Bar+rectSizeP2/2 ) {
         power = round(power);
         if(power == 1){
-          rectSize = 75;
+          rectSizeP1 = 75;
            println("1");
            setNewPowerup();
            int s = second(); 
            println(s);
            int stoppower = s + 10;
            if(s == stoppower){
-             rectSize = 150;
+             rectSizeP1 = 150;
            }
          }
          if(power == 2){
@@ -158,7 +162,8 @@ public void draw() {
         y = 150;
         speedX = random(3, 5);
         speedY = random(3, 5);
-        rectSize = 150;
+        rectSizeP2 = 150;
+        rectSizeP1 = 150;
       }
    
    
