@@ -93,8 +93,6 @@ public void draw()
   fill(128,128,128);
   diam = 20;
   ellipse(x, y, diam, diam);
-  
-  ellipse(xPower, yPower, 50, 50);
 
   ArrayList<Hand> hands = leap.getHandList();
   if(hands.size() == 1)
