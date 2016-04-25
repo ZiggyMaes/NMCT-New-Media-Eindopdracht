@@ -29,6 +29,8 @@ boolean testingGamePad = false;
 boolean gameStart = true;
 boolean disableBall = true;
 
+boolean powerup = true;
+
 int p2Scrore = 0;
 int p1Scrore = 0;
 
@@ -47,11 +49,11 @@ float diamHit;
 
 ControlDevice gamepad;
 
-color[] powerupColors = {#FDC96C, #A2CAC1, #ED7F75}; 
+color[] powerupColors = {#FF0000, #00FF00, #0000FF}; 
 float xPower = 550;
 float yPower = 450;
 
-float power = 1;
+float power = 3;
 float previusPower;
 
 int stoppower;
@@ -89,7 +91,6 @@ public void draw() {
     diam = 20;
     ellipse(x, y, diam, diam);
     
-    ellipse(xPower, yPower, 50, 50); //power up
    
     fill(p1Color);
     rect(30, mouseY-rectSizeP1/2, 10, rectSizeP1); //player 1 bar
@@ -137,24 +138,31 @@ public void draw() {
       
       if ( xPower +25 > p2X && xPower -25 < p2X+10 && yPower + 25 > p2Bar-rectSizeP2/2 && yPower - 25 < p2Bar+rectSizeP2/2 ) {
         power = round(power);
-        if(power == 1){
+        if(power == 1 && powerup == true){
            rectSizeP1 = 150;
            rectSizeP2= 150;
            previusPower = power;
            rectSizeP1 = 75;
-           setNewPowerup();
            stoppower = s + 10;
+           powerup = false;
+           println("powerup 1 mini rood");
          }
-         if(power == 2){
+         if(power == 2 && powerup == true){
            rectSizeP1 = 150;
            rectSizeP2 = 150;
            previusPower = power;
            rectSizeP2 = 300;
-           setNewPowerup();
            stoppower = s + 10;
+           powerup = false;
+           println("powerup 2 maxi groen");
          }
-         if(power == 3){
-           setNewPowerup();
+         if(power == 3 && powerup == true){
+           rectSizeP1 = 150;
+           rectSizeP2 = 150;
+           speedX = random(3, 5)+1;
+           speedY = random(3, 5)+1;
+           powerup = false;
+           println("powerup 3 snephijd blauw");
          }
       }
 
@@ -211,14 +219,20 @@ public void draw() {
       p2X = width-30;
     }*/
     //};
+    if(s%20 == 0 && powerup == false){
+        powerup = true;
+        setNewPowerup();
+    }
+    if(powerup == true){
+      fill(powerupColors[int(power-1)]);
+      ellipse(xPower, yPower, 50, 50); //power up
+    }
   }
 }
 void setNewPowerup(){
-  fill(128);
   xPower = random(width /2 +55, width - 55);
   yPower = random(0+55 , height-55);
   power = random(0.5,3.5);
-  println(xPower + " " + yPower + " " + power);
 }
 void keyPressed() {
   if (key == CODED) {
