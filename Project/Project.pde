@@ -26,7 +26,8 @@ int test = 100;
 
 boolean testingGamePad = true;
 
-boolean gameStart = false;
+boolean gameStart = true;
+boolean disableBall = true;
 
 int p2Scrore = 0;
 int p1Scrore = 0;
@@ -62,7 +63,7 @@ public void setup() {
   //kijken als de juiste controler is conected nog doen
   
   //zoek het juiste device
-  gamepad = controlIO.getDevice(6);
+  if(!testingGamePad) gamepad = controlIO.getDevice(6);
   println(gamepad);
 }
 
@@ -89,8 +90,12 @@ public void draw() {
    
     if (gameStart) {
    
-      //x = x + speedX;
-      //y = y + speedY;
+      if(!disableBall)
+      {
+        x = x + speedX;
+        y = y + speedY;
+      }
+
   
 
       //player 1 / left side 
@@ -165,7 +170,7 @@ public void draw() {
     }
 
 
-  if(testingGamePad == true){
+  if(testingGamePad == false){
     //controler hat besturing
     if(gamepad.getHat(0).up()){
       p2Bar-=10;
