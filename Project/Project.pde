@@ -208,16 +208,16 @@ public void draw()
   if(testingGamePad == false){
     //controler hat besturing
     if(gamepad.getHat(0).up() && p2Bar - rectSizeP2/2 - 20 > 0){
-      p2Bar-=10;
+      p2Bar-=5;
     }
     if(gamepad.getHat(0).down() && p2Bar + rectSizeP2/2 +20 < height){
-      p2Bar+=10;
+      p2Bar+=5;
     }
     if(gamepad.getHat(0).left() && p2X > width/2+20){
-      p2X -= 5;
+      p2X -= 1;
     }
     if(gamepad.getHat(0).right() && p2X < width-20){
-      p2X += 5;
+      p2X += 1;
     }
     //controler knop ingedrukt
     /*if(gamepad.getButton(1).pressed() == true && p2X == width/2+20){
