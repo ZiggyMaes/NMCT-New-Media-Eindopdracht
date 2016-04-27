@@ -3,12 +3,6 @@ import processing.data.*;
 import processing.event.*; 
 import processing.opengl.*; 
 
-import g4p_controls.G4P; 
-import g4p_controls.GAlign; 
-import g4p_controls.GButton; 
-import g4p_controls.GCScheme; 
-import g4p_controls.GEvent; 
-import g4p_controls.GLabel; 
 import org.gamecontrolplus.Configuration; 
 import org.gamecontrolplus.ControlDevice; 
 import org.gamecontrolplus.ControlIO; 
@@ -25,11 +19,6 @@ import java.io.OutputStream;
 import java.io.IOException; 
 
 public class Project extends PApplet {
-
-
-
-
-
 
 
 

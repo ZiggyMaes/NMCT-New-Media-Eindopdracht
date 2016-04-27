@@ -104,7 +104,7 @@ public void draw()
     //Player 1 / left player collision detection
     if (ballPos.x <= p1Pos.x && ballPos.x >= p1Pos.x-p1Size.x && ballPos.y > handPos.y-p1Size.y/2 && ballPos.y < handPos.y + p1Size.y/2)
     {
-      ballSpeed.x *= -1; // Revert ball
+      ballSpeed.x *= -1; // Invert ball
       ballPos.x += ballSpeed.x;
       //Hit marker when ball collides with player bar
       fill(random(0,128),random(0,128),random(0,128));
