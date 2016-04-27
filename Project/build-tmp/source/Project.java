@@ -37,255 +37,219 @@ public class Project extends PApplet {
 
 
 
-//Leap motion library
+//Leap motion libraries
 
 
 
+//Library objects
 ControlIO controlIO;
-int panelHeight;
-GLabel lblPath, lblSketch;
-GButton btnSelSketch;
-
+ControlDevice gamepad;
 LeapMotionP5 leap;
 
-int p2Bar = 0;
-int p2X = 0;
-
-int test = 100;
-
-boolean testingGamePad = false;
-
-boolean gameStart = true;
-boolean disableBall = false;
-
-boolean powerup = true;
-
-int p2Scrore = 0;
-int p1Scrore = 0;
-
-float x = 150;
-float y = 150;
-float speedX = random(3, 5);
-float speedY = random(3, 5);
+//Player Variables
+PVector p1Pos = new PVector(0,0);
+PVector p2Pos = new PVector(0,0);
+PVector p1Size = new PVector(10, 150);
+PVector p2Size = new PVector(10, 150);
+int p1Score = 0;
+int p2Score = 0;
 int p1Color = 0xff83ff00;
 int p2Color = 0xffff0000;
-int diam;
 
-int rectSizeP1 = 150;
-int rectSizeP2 = 150;
+//Game Variables
+boolean gameStart = false;
+//--Ball
+PVector ballPos = new PVector(0, 0);
+PVector ballSpeed = new PVector(random(3, 5), random(3, 5));
+int ballDia;
+//--Powerups
+boolean powerUp = false;
+int[] powerUpColors = {0xffFF0000, 0xff00FF00, 0xff0000FF}; 
+PVector powerUpPos = new PVector(550, 450);
+float powerUpId = random(1, 3+1);
+float previousPowerUp;
+int endPowerTime;
 
-float diamHit;
-
-ControlDevice gamepad;
-
-int[] powerupColors = {0xffFF0000, 0xff00FF00, 0xff0000FF}; 
-float xPower = 550;
-float yPower = 450;
-
-float power = 3;
-float previusPower;
-
-int stoppower;
-
-public void setup() {
-  
-  p2X = width-30;
+public void setup()
+{
   controlIO = ControlIO.getInstance(this);
-  println(controlIO);
+  leap = new LeapMotionP5(this);
+  gamepad = controlIO.getDevice(6);
+
+  
   noStroke();
   
   ellipseMode(CENTER);
-  leap = new LeapMotionP5(this);
   fill(255);
-  
-  //kijken als de juiste controler is conected nog doen
-  
-  //zoek het juiste device
-  //if(!testingGamePad) gamepad = controlIO.getDevice(6);
-  println(gamepad);
+
+  p1Pos.x = 30;
+  p1Pos.y = height/2 - p1Size.y/2;
+
+  p2Pos.x = width - 30 - p2Size.x;
+  p2Pos.y = height/2 + p2Size.y/2;
 }
 
 public void draw() 
 {
-  
-  int s = second();
+  //Variables
   PVector handPos = new PVector();
+  ArrayList<Hand> hands = leap.getHandList();
+  int sec = second();
+  float hitDia;
+  ballDia = 20;
+
   background(255);
-  //Toon score
+
+  //Display score
   textSize(32);
   fill(128);
-  text(p1Scrore, width/2+25, 30);
-  text(p2Scrore, width/2-20, 30);
+  text(p1Score, width/2+25, 30);
+  text(p2Score, width/2-20, 30);
   fill(200);
   rect(width/2+10, 0, 5, height);
 
+  //Render ball
   fill(128,128,128);
-  diam = 20;
-  ellipse(x, y, diam, diam);
-  
-  ellipse(xPower, yPower, 50, 50);
+  ellipse(ballPos.x, ballPos.y, ballDia, ballDia);
 
-  ArrayList<Hand> hands = leap.getHandList();
   if(hands.size() == 1)
   {  
-      for (Hand h : hands) 
-      { 
-        handPos = leap.getPosition(h);
-      }
+      for (Hand h : hands) { p1Pos.y = leap.getPosition(h).y; }
   }
  
+  //Render player bars
   fill(p1Color);
-  rect(30, handPos.y-rectSizeP1/2, 10, rectSizeP1); //player 1 bar
+  rect(p1Pos.x, handPos.y-p1Size.y/2, p1Size.x, p1Size.y);
   fill(p2Color);
-  rect(p2X, p2Bar-rectSizeP2/2, 10, rectSizeP2);
+  rect(p2Pos.x, p2Pos.y-p2Size.y/2, p2Size.x, p2Size.y);
   
- 
+  //Game runtime logic
   if (gameStart) 
   {
-    if(!disableBall)
+    ballPos.x += ballSpeed.x;
+    ballPos.y =+ ballSpeed.y;
+
+    //Player 1 / left player collision detection
+    if (ballPos.x <= p1Pos.x && ballPos.x >= p1Pos.x-p1Size.x && ballPos.y > handPos.y-p1Size.y/2 && ballPos.y < handPos.y + p1Size.y/2)
     {
-      x = x + speedX;
-      y = y + speedY;
-    }
-
-    //player 1 / left side 
-    if ( x < 30 && x > 20 && y > handPos.y-rectSizeP1/2 && y < handPos.y +rectSizeP1/2 ) {
-      speedX = speedX * -1;
-      x += speedX;
+      ballSpeed.x *= -1; // Revert ball
+      ballPos.x += ballSpeed.x;
+      //Hit marker when ball collides with player bar
       fill(random(0,128),random(0,128),random(0,128));
-      diamHit = random(75,150);
-      ellipse(x,y,diamHit,diamHit);   
+      hitDia = random(75,150);
+      ellipse(ballPos.x, ballPos.y, hitDia, hitDia);   
     }
 
-    if (x < 0) {
-      p1Scrore++; 
+    //scoring
+    if (ballPos.x < 0)
+    {
+      p1Score++; 
       gameStart = false;
-      x = 150;
-      y = 150;
-      speedX = random(3, 5);
-      speedY = random(3, 5);
-      rectSizeP2 = 150;
-      rectSizeP1 = 150;
+      ballPos.x = 150;
+      ballPos.y = 150;
+      ballSpeed.x = random(3, 5);
+      ballSpeed.y = random(3, 5);
+      p1Size.y = 150;
+      p2Size.y = 150;
     }
+    else if (ballPos.x > width) 
+    {
+      p2Score++; 
+      gameStart = false;
+      ballPos.x = 150;
+      ballPos.y = 150;
+      ballSpeed.x = random(3, 5);
+      ballSpeed.y = random(3, 5);
+      p1Size.y = 150;
+      p2Size.y = 150;
+    }
+
 
     //player 2 / right side
-    if ( x > p2X && x < p2X+10 && y > p2Bar-rectSizeP2/2 && y < p2Bar+rectSizeP2/2 ) {
-      speedX = speedX * -1;
-      x += speedX;
+    if ( ballPos.x > p2Pos.x && ballPos.x < p2Pos.x+10 && ballPos.y > p2Pos.y-p2Size.y/2 && ballPos.y < p2Pos.y+p2Size.y/2 )
+    {
+      ballSpeed.x *= -1;
+      ballPos.x += ballSpeed.x;
       fill(random(0,128),random(0,128),random(0,128));
-      diamHit = random(75,150);
-      ellipse(x,y,diamHit,diamHit); 
+      hitDia = random(75,150);
+      ellipse(ballPos.x, ballPos.y, hitDia, hitDia);  
     }
     
-      if ( xPower +25 > p2X && xPower -25 < p2X+10 && yPower + 25 > p2Bar-rectSizeP2/2 && yPower - 25 < p2Bar+rectSizeP2/2 ) {
-        power = round(power);
-        if(power == 1 && powerup == true){
-           rectSizeP1 = 150;
-           rectSizeP2= 150;
-           previusPower = power;
-           rectSizeP1 = 75;
-           stoppower = s + 10;
-           powerup = false;
-           println("powerup 1 mini rood");
-         }
-         if(power == 2 && powerup == true){
-           rectSizeP1 = 150;
-           rectSizeP2 = 150;
-           previusPower = power;
-           rectSizeP2 = 300;
-           stoppower = s + 10;
-           powerup = false;
-           println("powerup 2 maxi groen");
-         }
-         if(power == 3 && powerup == true){
-           rectSizeP1 = 150;
-           rectSizeP2 = 150;
-           speedX = random(3, 5)+1;
-           speedY = random(3, 5)+1;
-           powerup = false;
-           println("powerup 3 snephijd blauw");
-         }
-      }
+    if ( powerUpPos.x + 25 > p2Pos.x && powerUpPos.x - 25 < p2Pos.x + 10 && powerUpPos.y + 25 > p2Pos.y-p2Size.y/2 && powerUpPos.y - 25 < p2Pos.y + p2Size.y / 2 ) 
+    {
+      powerUpId = round(powerUpId);
 
-      if(s == stoppower){
-        if(previusPower == 1){
-          rectSizeP1 = 150;
-        }
-        if(previusPower == 2){
-          rectSizeP2 = 150;
-        }
-      }
+      if(powerUpId == 1 && powerUp == true)
+      {
+         p1Size.y = 75;
+         p2Size.y = 150;
+         previousPowerUp = powerUpId;
+         endPowerTime = sec + 10;
+         powerUp = false;
+       }
+       if(powerUpId == 2 && powerUp == true)
+       {
+         p1Size.y = 150;
+         p2Size.y = 300;
+         previousPowerUp = powerUpId;
+         endPowerTime = sec + 10;
+         powerUp = false;
+       }
+       if(powerUpId == 3 && powerUp == true)
+       {
+         p1Size.y = 150;
+         p2Size.y = 150;
+         ballSpeed.x = random(3, 5)+2;
+         ballSpeed.y = random(3, 5)+2;
+         powerUp = false;
+       }
+    }
 
-    // resets things if you lose
-    if (x > width) {
-      p2Scrore++; 
-      gameStart = false;
-      x = 150;
-      y = 150;
-      speedX = random(3, 5);
-      speedY = random(3, 5);
-      rectSizeP2 = 150;
-      rectSizeP1 = 150;
+    if(sec == endPowerTime)
+    {
+      if(previousPowerUp == 1) p1Size.y = 150;
+      else if(previousPowerUp == 2) p2Size.y = 150;
     }
  
- 
-    // if ball hits up or down, change direction of Y  
-    if ( y > height || y < 0 ) {
-      speedY = speedY * -1;
-      y = y + speedY;
+    if (ballPos.y > height || ballPos.y < 0 ) 
+    {
+      ballSpeed.y *= -1;
+      ballPos.y += ballSpeed.y;
     }
   }
 
-  if(testingGamePad == false){
-    //controler hat besturing
-    if(gamepad.getHat(0).up() && p2Bar - rectSizeP2/2 - 20 > 0){
-      p2Bar-=10;
-    }
-    if(gamepad.getHat(0).down() && p2Bar + rectSizeP2/2 +20 < height){
-      p2Bar+=10;
-    }
-    if(gamepad.getHat(0).left() && p2X > width/2+20){
-      p2X -= 5;
-    }
-    if(gamepad.getHat(0).right() && p2X < width-20){
-      p2X += 5;
-    }
-    //controler knop ingedrukt
-    /*if(gamepad.getButton(1).pressed() == true && p2X == width/2+20){
-      p2X -= 0;
-    }else if(gamepad.getButton(1).pressed()){
-      p2X -= 1;
-    }else{
-      p2X = width-30;
-    }*/
-    //};
-    if(s%20 == 0 && powerup == false){
-        powerup = true;
-        setNewPowerup();
-    }
-    if(powerup == true){
-      fill(powerupColors[PApplet.parseInt(power-1)]);
-      ellipse(xPower, yPower, 50, 50); //power up
-    }
+  //controler hat besturing
+  if(gamepad.getHat(0).up() && p2Pos.y - p2Size.y/2 - 20 > 0) p2Pos.y -= 5;
+  if(gamepad.getHat(0).down() && p2Pos.y + p2Size.y/2 + 20 < height) p2Pos.y += 5;
+  if(gamepad.getHat(0).left() && p2Pos.x > width/2+20) p2Pos.x -= 1;
+  if(gamepad.getHat(0).right() && p2Pos.x < width-20) p2Pos.x += 1;
+
+  if(sec%20 == 0 && powerUp == false)
+  {
+      powerUp = true;
+      generateNewPowerup();
+  }
+  if(powerUp == true)
+  {
+    fill(powerUpColors[PApplet.parseInt(powerUpId-1)]);
+    ellipse(powerUpPos.x, powerUpPos.y, 50, 50);
   }
 }
-public void setNewPowerup(){
-  xPower = random(width /2 +55, width - 55);
-  yPower = random(0+55 , height-55);
-  power = random(0.5f,3.5f);
+public void generateNewPowerup()
+{
+  powerUpPos.x = random(width/2 + 55, width - 55);
+  powerUpPos.y = random(0 + 55, height - 55);
+  powerUpId = random(0.5f,3.5f);
 }
-public void keyPressed() {
-  if (key == CODED) {
-      if (keyCode == UP) {
-        p2Bar -= 20;
-      } else if (keyCode == DOWN) {
-        p2Bar += 20;
-      } 
+public void keyPressed()
+{
+  if (key == CODED) 
+  {
+      if (keyCode == UP) p2Pos.y -= 20;
+      else if (keyCode == DOWN) p2Pos.y += 20;
   }
 }
-public void mousePressed() {
-  gameStart = true;
-}
+public void mousePressed() { gameStart = true; }
   public void settings() {  size(800,600);  smooth(); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Project" };
