@@ -1,17 +1,45 @@
-import g4p_controls.G4P;
-import g4p_controls.GAlign;
-import g4p_controls.GButton;
-import g4p_controls.GCScheme;
-import g4p_controls.GEvent;
-import g4p_controls.GLabel;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
 
-import org.gamecontrolplus.Configuration;
-import org.gamecontrolplus.ControlDevice;
-import org.gamecontrolplus.ControlIO;
+import g4p_controls.G4P; 
+import g4p_controls.GAlign; 
+import g4p_controls.GButton; 
+import g4p_controls.GCScheme; 
+import g4p_controls.GEvent; 
+import g4p_controls.GLabel; 
+import org.gamecontrolplus.Configuration; 
+import org.gamecontrolplus.ControlDevice; 
+import org.gamecontrolplus.ControlIO; 
+import com.onformative.leap.*; 
+import com.leapmotion.leap.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Project extends PApplet {
+
+
+
+
+
+
+
+
+
+
+
 
 //Leap motion libraries
-import com.onformative.leap.*;
-import com.leapmotion.leap.*;
+
+
 
 //Library objects
 ControlIO controlIO;
@@ -25,8 +53,8 @@ PVector p1Size = new PVector(10, 150);
 PVector p2Size = new PVector(10, 150);
 int p1Score = 0;
 int p2Score = 0;
-color p1Color = #83ff00;
-color p2Color = #ff0000;
+int p1Color = 0xff83ff00;
+int p2Color = 0xffff0000;
 
 //Game Variables
 boolean gameStart = false;
@@ -36,7 +64,7 @@ PVector ballSpeed = new PVector(random(3, 5), random(3, 5));
 int ballDia;
 //--Powerups
 boolean powerUp = false;
-color[] powerUpColors = {#FF0000, #00FF00, #0000FF}; 
+int[] powerUpColors = {0xffFF0000, 0xff00FF00, 0xff0000FF}; 
 PVector powerUpPos = new PVector(550, 450);
 float powerUpId = random(1, 3+1);
 float previousPowerUp;
@@ -48,9 +76,9 @@ public void setup()
   leap = new LeapMotionP5(this);
   gamepad = controlIO.getDevice(6);
 
-  size(800,600);
+  
   noStroke();
-  smooth();
+  
   ellipseMode(CENTER);
   fill(255);
 
@@ -203,17 +231,17 @@ public void draw()
   }
   if(powerUp == true)
   {
-    fill(powerUpColors[int(powerUpId-1)]);
+    fill(powerUpColors[PApplet.parseInt(powerUpId-1)]);
     ellipse(powerUpPos.x, powerUpPos.y, 50, 50);
   }
 }
-void generateNewPowerup()
+public void generateNewPowerup()
 {
   powerUpPos.x = random(width/2 + 55, width - 55);
   powerUpPos.y = random(0 + 55, height - 55);
-  powerUpId = random(0.5,3.5);
+  powerUpId = random(0.5f,3.5f);
 }
-void keyPressed()
+public void keyPressed()
 {
   if (key == CODED) 
   {
@@ -221,4 +249,14 @@ void keyPressed()
       else if (keyCode == DOWN) p2Pos.y += 20;
   }
 }
-void mousePressed() { gameStart = true; }
+public void mousePressed() { gameStart = true; }
+  public void settings() {  size(800,600);  smooth(); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Project" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
