@@ -91,7 +91,7 @@ public void draw()
  
   //Render player bars
   fill(p1Color);
-  rect(p1Pos.x, handPos.y-p1Size.y/2, p1Size.x, p1Size.y);
+  rect(p1Pos.x, p1Pos.y-p1Size.y/2, p1Size.x, p1Size.y);
   fill(p2Color);
   rect(p2Pos.x, p2Pos.y-p2Size.y/2, p2Size.x, p2Size.y);
   
@@ -99,10 +99,10 @@ public void draw()
   if (gameStart) 
   {
     ballPos.x += ballSpeed.x;
-    ballPos.y =+ ballSpeed.y;
+    ballPos.y += ballSpeed.y;
 
     //Player 1 / left player collision detection
-    if (ballPos.x <= p1Pos.x && ballPos.x >= p1Pos.x-p1Size.x && ballPos.y > handPos.y-p1Size.y/2 && ballPos.y < handPos.y + p1Size.y/2)
+    if (ballPos.x <= p1Pos.x && ballPos.x >= p1Pos.x-p1Size.x && ballPos.y > p1Pos.y-p1Size.y/2 && ballPos.y < p1Pos.y + p1Size.y/2)
     {
       ballSpeed.x *= -1; // Invert ball
       ballPos.x += ballSpeed.x;
@@ -194,6 +194,7 @@ public void draw()
   if(gamepad.getHat(0).up() && p2Pos.y - p2Size.y/2 - 20 > 0) p2Pos.y -= 5;
   if(gamepad.getHat(0).down() && p2Pos.y + p2Size.y/2 + 20 < height) p2Pos.y += 5;
   if(gamepad.getHat(0).left() && p2Pos.x > width/2+20) p2Pos.x -= 1;
+
   if(gamepad.getHat(0).right() && p2Pos.x < width-20) p2Pos.x += 1;
 
   if(sec%20 == 0 && powerUp == false)
